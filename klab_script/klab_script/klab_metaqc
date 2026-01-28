@@ -1,0 +1,49 @@
+#!/usr/bin/sh
+# 20200410
+# Version 0.1 ; This is a beta version.
+
+<<log
+2024.4.15加入了对于<100bp 测序数据的质控流程，shortqc
+log
+
+# Author Jinhao klab
+
+help_message () {
+    echo -e "Usage: klab_metaqc [module]"
+        echo "Options:"
+        echo "This is a beta version."
+    echo "    list       | get sample list for qc module."
+    # echo "    qc         | a pipeline for metagenomic data quality and remove host contamination."
+    echo "    superqc    | a snakemake pipeline same as klab qc, but more preferable."
+    echo "    shortqc    | metagenomic data qc pipeline for short read(<100bp)."
+    echo "    help       | help show this help message."
+    echo "    version    | show version."
+    echo "Designed by jinhao"
+    echo "Last update: 2020.4.10"
+}
+
+
+key_script=/ddnstor/imau_sunzhihong/mnt1/script/klab_script
+
+if [ "$1" = list ]; then
+    sh ${key_script}/get_sample_list.sh ${@:2}
+    exit 0
+elif [ "$1" = superqc ]; then
+    sh ${key_script}/qc.sh ${@:2}
+    exit 0
+elif [ "$1" = shortqc ]; then
+    sh ${key_script}/qc_short.sh ${@:2}
+    exit 0
+elif [ "$1" = "help" ]; then
+    help_message
+    exit 0
+elif [ "$1" = "version" ]; then
+        echo ""
+    echo "Klab_metaqc version=beta 0.1, 20200410, by jinhao."
+    echo ""
+    exit 0
+else 
+    echo "Please select a module of klab_metaqc"
+    help_message
+        exit 1
+fi
